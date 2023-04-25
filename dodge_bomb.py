@@ -7,7 +7,23 @@ delta = {                   #練習Ⅳ
         pg.K_DOWN:(0, +1),  #練習Ⅳ
         pg.K_LEFT:(-1, 0),  #練習Ⅳ
         pg.K_RIGHT:(+1, 0), #練習Ⅳ
-        }                   #練習Ⅳ    
+    }                       #練習Ⅳ    
+
+
+def check_bound(scr_rct:pg.Rect, obj_rct:pg.Rect) -> tuple[bool, bool]: #練習Ⅴ
+    '''
+    オブジェクトが画面内or画面外を判定し、真理値タプルを返す関数
+    引数1:画面Surfaceのrect
+    引数2:こうかとん、または、爆弾Surfaceのrect
+    戻り値:横方向、縦方向のはみ出し判定結果(画面内:True/画面外:False)
+    '''
+    yoko, tate = True, True #練習Ⅴ
+    if obj_rct.left < scr_rct.left or scr_rct.right < obj_rct.right: #練習Ⅴ
+        yoko = False #練習Ⅴ
+    if obj_rct.top < scr_rct.top or scr_rct.bottom < obj_rct.bottom: #練習Ⅴ
+        tate = False #練習Ⅴ
+    return yoko, tate #練習Ⅴ
+
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -40,11 +56,22 @@ def main():
         for k, mv in delta.items():   #練習Ⅳ
             if key_lst[k]:            #練習Ⅳ
                 kk_rct.move_ip(mv)    #練習Ⅳ
+        if check_bound(screen.get_rect(), kk_rct) != (True, True): #練習Ⅴ
+            for k, mv in delta.items(): #練習Ⅴ
+                if key_lst[k]: #練習Ⅴ 
+                    kk_rct.move_ip(-mv[0], -mv[1]) #練習Ⅴ
+
 
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, kk_rct) #練習Ⅳ
         bb_rct.move_ip(vx, vy) #練習Ⅲ
+        yoko, tate = check_bound(screen.get_rect(), bb_rct) #練習Ⅴ
+        if not yoko: #練習Ⅴ
+            vx *= -1 #練習Ⅴ
+        if not tate: #練習Ⅴ
+            vy *= -1 #練習Ⅴ
         screen.blit(bb_img, bb_rct) #練習Ⅲ
+
 
         pg.display.update()
         clock.tick(1000)
