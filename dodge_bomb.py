@@ -7,7 +7,7 @@ delta = {                   #練習Ⅳ
         pg.K_DOWN:(0, +1),  #練習Ⅳ
         pg.K_LEFT:(-1, 0),  #練習Ⅳ
         pg.K_RIGHT:(+1, 0), #練習Ⅳ
-    }                       #練習Ⅳ    
+    }                       #練習Ⅳ  
 
 
 def check_bound(scr_rct:pg.Rect, obj_rct:pg.Rect) -> tuple[bool, bool]: #練習Ⅴ
@@ -32,8 +32,14 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+    kk_img2 = pg.image.load("ex02/fig/3.png")
+    kk_img2 = pg.transform.flip(kk_img, True, True)
     kk_rct = kk_img.get_rect() #練習Ⅳ
+    kk_rct2 = kk_img2.get_rect()
     kk_rct.center = 900, 400 #練習Ⅳ
+
+    fonto = pg.font.Font(None, 80)
+    txt = fonto.render("Deth", True, 255, 255, 255)
 
     bb_img = pg.Surface((20, 20)) #練習Ⅰ
     pg.draw.circle(bb_img, (255, 0, 0), (10, 10), 10) #練習Ⅰ
@@ -72,7 +78,10 @@ def main():
             vy *= -1 #練習Ⅴ
         screen.blit(bb_img, bb_rct) #練習Ⅲ
         if kk_rct.colliderect(bb_rct): #練習Ⅵ
-            return                     #練習Ⅵ
+            screen.blit(kk_img2, kk_rct)
+            return screen.blit(txt, [300, 200])
+            for i in range(900-y):
+                kk_rct2.move_ip(0, 1)   #練習Ⅵ
 
 
         pg.display.update()
