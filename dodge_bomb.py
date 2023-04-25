@@ -71,6 +71,8 @@ def main():
         if not tate: #練習Ⅴ
             vy *= -1 #練習Ⅴ
         screen.blit(bb_img, bb_rct) #練習Ⅲ
+        if kk_rct.colliderect(bb_rct): #練習Ⅵ
+            return                     #練習Ⅵ
 
 
         pg.display.update()
